@@ -1,0 +1,34 @@
+Booting an Instance
+-------------------
+
+python boot.py instance_name image_name flavor_name instance_count
+
+example : python boot.py test "cirros image" m1.tiny 1
+
+
+
+
+Maintaining state of host outside DB in the scheduler
+-----------------------------------------------------
+
+Host State :  'host','running_vms','vcpus','memory_mb','local_gb','vcpus_used','free_vcpus','memory_mb_used','local_gb_used','free_ram','free_disk_gb'
+To be updated: running_vms,vcpus_used,memory_mb_used,free_ram_mb,free_vcpus
+
+
+Choosing a scheduling algorithm
+------------------------------- 
+
+In the api/boot.py script, the scheduling algorithm is chosen.
+Scheduling algorithms options:
+- bestfit_core
+- bestfit_ram
+- randomfit
+(keep updating)
+
+
+Host Details
+------------
+
+{'host': 'localhost.localdomain', 'free_disk_gb': 28L, 'local_gb': 49L, 'memory_mb_used': 3072L, 'vcpus_used': 2L, 'local_gb_used': 21L, 'free_vcpus': 2L, 'memory_mb': 7742L, 'vcpus': 4L, 'free_ram': 4670L, 'running_vms': 2L}
+{'host': 'localhost2.localdomain', 'free_disk_gb': 342L, 'local_gb': 342L, 'memory_mb_used': 2560L, 'vcpus_used': 1L, 'local_gb_used': 0L, 'free_vcpus': 3L, 'memory_mb': 7742L, 'vcpus': 4L, 'free_ram': 5182L, 'running_vms': 1L}]
+

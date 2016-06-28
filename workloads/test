@@ -1,0 +1,109 @@
+== Nova services ==
+openstack-nova-api:                     active
+openstack-nova-cert:                    active
+openstack-nova-compute:                 active
+openstack-nova-network:                 inactive  (disabled on boot)
+openstack-nova-scheduler:               active
+openstack-nova-conductor:               active
+== Glance services ==
+openstack-glance-api:                   active
+openstack-glance-registry:              active
+== Keystone service ==
+openstack-keystone:                     active
+== Horizon service ==
+openstack-dashboard:                    503
+== neutron services ==
+neutron-server:                         active
+neutron-dhcp-agent:                     active
+neutron-l3-agent:                       active
+neutron-metadata-agent:                 active
+neutron-openvswitch-agent:              active
+== Swift services ==
+openstack-swift-proxy:                  active
+openstack-swift-account:                active
+openstack-swift-container:              active
+openstack-swift-object:                 active
+== Cinder services ==
+openstack-cinder-api:                   active
+openstack-cinder-scheduler:             active
+openstack-cinder-volume:                active
+openstack-cinder-backup:                active
+== Ceilometer services ==
+openstack-ceilometer-api:               active
+openstack-ceilometer-central:           active
+openstack-ceilometer-compute:           active
+openstack-ceilometer-collector:         active
+openstack-ceilometer-alarm-notifier:    active
+openstack-ceilometer-alarm-evaluator:   active
+openstack-ceilometer-notification:      active
+== Support services ==
+mysqld:                                 active    (disabled on boot)
+openvswitch:                            active
+dbus:                                   active
+target:                                 active
+rabbitmq-server:                        active
+memcached:                              active
+== Keystone users ==
++----------------------------------+------------+---------+----------------------+
+|                id                |    name    | enabled |        email         |
++----------------------------------+------------+---------+----------------------+
+| da1f3a0a2427430e98c56a0ac582a09c |   admin    |   True  |    root@localhost    |
+| acd22dbc60484bb280ed22451f2b357f | ceilometer |   True  | ceilometer@localhost |
+| 768d1e9baf24415bb3aaeb7bb04a05e3 |   cinder   |   True  |   cinder@localhost   |
+| b433cde79e384a5d9a9077cf9c804342 |   glance   |   True  |   glance@localhost   |
+| f99ade4ca31c47adb2addee22d92796e |  neutron   |   True  |  neutron@localhost   |
+| cd9828d1a12c4b078e8bd797d4af9ee8 |    nova    |   True  |    nova@localhost    |
+| 70bc541034c949818591cbe8e0c10d9c |   swift    |   True  |   swift@localhost    |
++----------------------------------+------------+---------+----------------------+
+== Glance images ==
++--------------------------------------+--------------+-------------+------------------+------------+--------+
+| ID                                   | Name         | Disk Format | Container Format | Size       | Status |
++--------------------------------------+--------------+-------------+------------------+------------+--------+
+| d3181f9d-a271-42bb-a2f3-8e4285684610 | centos       | qcow2       | bare             | 1004994560 | active |
+| 866c4099-9705-48be-986e-319b09b8b999 | cirros image | qcow2       | bare             | 13147648   | active |
++--------------------------------------+--------------+-------------+------------------+------------+--------+
+== Nova managed services ==
++----+------------------+------------------------+----------+---------+-------+----------------------------+-----------------+
+| Id | Binary           | Host                   | Zone     | Status  | State | Updated_at                 | Disabled Reason |
++----+------------------+------------------------+----------+---------+-------+----------------------------+-----------------+
+| 1  | nova-consoleauth | localhost.localdomain  | internal | enabled | up    | 2016-03-07T10:39:54.000000 | -               |
+| 2  | nova-scheduler   | localhost.localdomain  | internal | enabled | up    | 2016-03-07T10:39:51.000000 | -               |
+| 3  | nova-conductor   | localhost.localdomain  | internal | enabled | up    | 2016-03-07T10:39:53.000000 | -               |
+| 5  | nova-compute     | localhost.localdomain  | nova     | enabled | up    | 2016-03-07T10:39:53.000000 | -               |
+| 6  | nova-cert        | localhost.localdomain  | internal | enabled | up    | 2016-03-07T10:39:54.000000 | -               |
+| 7  | nova-compute     | localhost2.localdomain | nova     | enabled | up    | 2016-03-07T10:39:51.000000 | -               |
++----+------------------+------------------------+----------+---------+-------+----------------------------+-----------------+
+== Nova networks ==
++--------------------------------------+---------+------+
+| ID                                   | Label   | Cidr |
++--------------------------------------+---------+------+
+| 6e0c41ed-1745-42ba-95ef-f1fbbd4bff2b | private | -    |
+| 86a8bde5-f04e-459e-a8b5-9ecfe02ca5cb | public  | -    |
++--------------------------------------+---------+------+
+== Nova instance flavors ==
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+| ID | Name      | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+| 1  | m1.tiny   | 512       | 1    | 0         |      | 1     | 1.0         | True      |
+| 2  | m1.small  | 2048      | 20   | 0         |      | 1     | 1.0         | True      |
+| 3  | m1.medium | 4096      | 40   | 0         |      | 2     | 1.0         | True      |
+| 4  | m1.large  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
+| 5  | m1.xlarge | 16384     | 160  | 0         |      | 8     | 1.0         | True      |
+| 6  | custom_1  | 256       | 1    | 0         |      | 1     | 1.0         | True      |
+| 7  | custom_2  | 1024      | 1    | 0         |      | 1     | 1.0         | True      |
+| 8  | custom_3  | 1024      | 1    | 0         |      | 2     | 1.0         | True      |
+| 9  | custom_4  | 2048      | 1    | 0         |      | 2     | 1.0         | True      |
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+== Nova instances ==
++--------------------------------------+-------------+--------+------------+-------------+-----------------------+
+| ID                                   | Name        | Status | Task State | Power State | Networks              |
++--------------------------------------+-------------+--------+------------+-------------+-----------------------+
+| 6180afc3-27ac-4cfe-b6bf-1826cb8e4e93 | my-vm-small | ACTIVE | -          | Running     | private=192.168.1.167 |
+| abc965fe-b9ff-46c5-8f08-149f465dd8a6 | my-vm-small | ACTIVE | -          | Running     | private=192.168.1.171 |
+| d63ea97a-ba09-4e7e-bcda-463ce7ac9055 | my-vm-small | ACTIVE | -          | Running     | private=192.168.1.163 |
+| 0088c20b-581b-4dfe-8631-dcf57feea5c7 | test2       | ACTIVE | -          | Running     | private=192.168.1.170 |
+| 1c4b48a1-0787-491c-8d51-73e1922fe449 | test2       | ACTIVE | -          | Running     | private=192.168.1.164 |
+| 2d8ccd77-a933-474f-8e95-3667d9637224 | test2       | ACTIVE | -          | Running     | private=192.168.1.166 |
+| 45eb0200-6e45-4fa1-8789-22b6d7c15502 | test2       | ACTIVE | -          | Running     | private=192.168.1.172 |
+| e3c53965-3149-4942-9925-601d150dc9f6 | test2       | ACTIVE | -          | Running     | private=192.168.1.168 |
++--------------------------------------+-------------+--------+------------+-------------+-----------------------+

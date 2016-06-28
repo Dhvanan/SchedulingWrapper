@@ -1,0 +1,44 @@
+compute_node = {'host':data[0],'running_vms':data[1],'vcpus':data[2],'memory_mb':data[3],'local_gb':data[4],'vcpus_used':data[5],'free_vcpus':data[2]-data[5],'memory_mb_used':data[6],'local_gb_used':data[7],'free_ram':data[8],'free_disk_gb':data[9]}
+
+
+HOST:
+host
+running_vms
+vcpus
+memory_mb
+local_gb
+vcpus_used
+free_vcpus
+memory_mb_used
+local_gb_used
+free_ram
+free_disk_gb
+
+
+HOST:
+host
+vcpus
+memory_mb
+local_gb
+free_vcpus
+free_ram
+
+
+CLoudSim
+host : host.getId()
+vpcus : host.getNumberofPes()
+free_mips : h.getAvailableMips()
+local_gb : h.getStorage()
+free_ram : host.getRamProvisioner.getAvailableRam()
+ram : host.getRamProvisioner.getRam()
+
+{u'name': u'VM1', u'image': u'cirros image', u'instance_count': 1, u'host-affinity': u'packed', u'flavor': u'custom_2', u'description': u'VM'}
+
+
+REQUEST:	
+name
+image
+instance_count
+host-affinity
+flavor
+description

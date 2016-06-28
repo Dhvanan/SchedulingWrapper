@@ -1,0 +1,71 @@
+import sys
+sys.path.append('/home/dhvanan/IISc/WORK/SchedulingWrapper')
+import operator
+#import config
+ram_allocation_ratio = 1
+#from hostManager.HostManager import update_host
+
+flavors={'m1.tiny':[512,1,1],'m1.small':[2048,20,1],'m1.medium':[4096,40,2],'m1.large':[8192,80,4],'m1.xlarge':[16384,160,8],'custom_1':[256,1,1],'custom_2':[1024,1,1],'custom_3':[1024,1,2],'custom_4':[2048,1,2],'custom_5':[1024,20,3],'custom_6':[4096,1,1],'custom_7':[2048,1,1]}
+
+def BestFit_Ram(hosts,req):
+	'''
+	input:  hosts list with each host as a dictionary
+                        req dict: {vm-default:[{},{}],vm-custom:[{},{}]}
+
+	output: VM:Host Mapping
+	'''
+	print "In BESTFIT RAM"
+	#print "HOSTS : " + str(hosts)
+	#print "REQUESTS : " +str((req))
+	
+	mapping1=[]
+	mapping=[]
+	host_list ={}
+	hosts_dict={}
+        #for host in hosts:
+                #host_list[host['host']] = int(host['free_ram'] * ram_allocation_ratio)
+		#hosts_dict[host['host']] = host
+	
+	#print "HostList : "+str(host_list)
+	sorted_hostlist = sorted(hosts, key=lambda k: k['free_ram'])
+	instance_count=0
+	for vm_type in req:
+		mapping_dict = {}
+		#print 'vm-type'+vm_type
+		for request in req[vm_type]:
+			#print request
+                        #ram_req = flavors[request['flavor']][0]
+                        ram_req = request['ram']
+			#print "REQ : "+str(ram_req)
+			#print "HOSTS:"+str(len(sorted_hostlist))
+			for host in sorted_hostlist:
+				#print "host : " + str(host)
+				#print(host['free_ram']>ram_req)
+				#print host
+				if(host['free_ram']>=ram_req):
+					#print "Host:"+str(host['host'])+"\tRequest:"+str(request['name'])
+					host['free_ram']-=ram_req
+					mapping_dict[request['name']] = host['host']
+					break
+			#print mapping_dict
+			sorted_hostlist = sorted(hosts, key=lambda k: k['free_ram'])		
+		mapping.append(mapping_dict)
+	return mapping
+
+
+'''
+h = [{'host':'host1','vcpus':12,'memory_mb':4096,'local_gb':500,'free_vcpus':12,'memory_mb_used':0,'free_ram':4096},{'host':'host2','vcpus':12,'memory_mb':4096,'local_gb':500,'free_vcpus':12,'memory_mb_used':0,'free_ram':4096}]
+r = {"vm-default":[{"name" : "VM1","description":"VM","image":"cirros image","flavor":"custom_2","instance_count":1,"host-affinity" : "packed"},{"name" : "VM2","description":"VM","image":"cirros image","flavor":"custom_2","instance_count":1,"host-affinity" : "packed"}]}
+#r = {"vm-default":[{"name" : "VM1","description":"VM","image":"cirros image","flavor":"custom_2","instance_count":1,"host-affinity" : "packed"},{"name":"VM2","description":"test instance","flavor":"custom_2","image":"cirros image","instance_count":1,"host-affinity":"packed"},{"name":"VM3","description":"test instance","flavor":"custom_2","image":"cirros image","instance_count":1,"host-affinity":"packed"},{"name":"VM4","description":"test instance","flavor":"custom_7","image":"cirros image","instance_count":1,"host-affinity":"packed"},{"name":"VM5","description":"test instance","flavor":"custom_6","image":"cirros image","instance_count":1,"host-affinity":"packed"},{"name":"VM6","description":"test instance","flavor":"custom_6","image":"cirros image","instance_count":1,"host-affinity":"packed"},{"name":"VM7","description":"test instance","flavor":"custom_2","image":"cirros image","instance_count":1,"host-affinity":"packed"}]}
+res = BestFit_Ram(h,r)
+print res
+'''
+'''
+h=[{"local_gb":1000000,"host":0,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":1,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":2,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":3,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":4,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":5,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":6,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":7,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":8,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":9,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":10,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":11,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":12,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":13,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":14,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":15,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":16,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":17,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":18,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":19,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":20,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":21,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":22,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":23,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":24,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":25,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":26,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":27,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":28,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":29,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":30,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":31,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":32,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":33,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":34,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":35,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":36,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":37,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":38,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":39,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":40,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":41,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":42,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":43,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":44,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":45,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":46,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":47,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":48,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":49,"free_ram":131072,"memory_mb":131072,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":50,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":51,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":52,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":53,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":54,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":55,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":56,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":57,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":58,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":59,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":60,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":61,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":62,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":63,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":64,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":65,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":66,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":67,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":68,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":69,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":70,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":71,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":72,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":73,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":74,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":75,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":76,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":77,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":78,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":79,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":80,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":81,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":82,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":83,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":84,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":85,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":86,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":87,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":88,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":89,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":90,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":91,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":92,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":93,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":94,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":95,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":96,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":97,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":98,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400},{"local_gb":1000000,"host":99,"free_ram":262144,"memory_mb":262144,"vcpus":64,"free_vcpus":6400}]
+
+r={"vm-default":[{"image":"cirros image","cores":2,"name":0,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":1,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":2,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":3,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":4,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":5,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":6,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":2,"name":7,"description":"VM","instance_count":1,"host-affinity":"packed","ram":16384},{"image":"cirros image","cores":1,"name":8,"description":"VM","instance_count":1,"host-affinity":"packed","ram":1024},{"image":"cirros image","cores":1,"name":9,"description":"VM","instance_count":1,"host-affinity":"packed","ram":1024}]}
+
+
+res = BestFit_Ram(h,r)
+print res
+'''
