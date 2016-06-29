@@ -1,5 +1,8 @@
-from randomfit_ram import randomfit_ram
-
+from randomfit_core import RandomFit_Core
+from bestfit_ram import BestFit_Ram
+from subsetram import subsetram
+from ljf_ram import ljf_ram
+from firstfit_ram import FirstFit_Ram
 import math
 import operator
 import ast
@@ -28,9 +31,10 @@ def scheduler_glue(h,r):
 
 
 	#mapping = BestFit_Ram(hosts,requests)
-	mapping = randomfit_ram(hosts,requests)
+	#mapping = subsetram(hosts,requests)
 	#mapping = ljf_ram(hosts,requests)
 	#mapping = FirstFit_Ram(hosts,requests)
+	mapping = RandomFit_Core(hosts,requests)
 	print mapping	
 	return str(mapping[0])
 
